@@ -36,6 +36,7 @@
     "medium-editor": "^5.23.3",
     "normalize.css": "7.0.0",
     "randomcolor": "^0.5.3",
+    "spherical-geometry-js": "^1.0.1",
     "v-tooltip": "^2.0.0-rc.30",
     "vee-validate": "2.0.0-rc.7",
     "vue": "2.5.2",

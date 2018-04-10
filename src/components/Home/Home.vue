@@ -2,13 +2,13 @@
   <div class="dashboard">
 
     <div class="row">
-      <div class="col-xl-6 col-lg-12">
+      <div class="col-xl-7 col-lg-12">
         <vuestic-widget class="widget-viewport-height" header-text="Browse for lands">
-          <google-map ref="mapComponent"></google-map>
+             <google-map></google-map>
         </vuestic-widget>
 
       </div>
-      <div class="col-xl-6 col-lg-12">
+      <div class="col-xl-5 col-lg-12">
 
 
         <vuestic-widget header-text="Browse for lands">
@@ -43,7 +43,6 @@
   import AtomSpinner from "epic-spinners/src/components/lib/AtomSpinner";
 
 
-
   export default {
     name: 'dashboard',
     components: {
@@ -53,21 +52,35 @@
       return {
         breadcrumbs: ['Home'],
         lands: [],
-        loaded: false
+        loaded: false,
+        loadedMap:false
       }
     },
     mounted: function () {
-      this.getLands((data)=>{
-        this.lands = data;
-        console.log('start');
+
+      this.$root.$on('loadedMap', () => {
+       // this.loadedMap = true;
+      });
+      this.$root.$on('doneDrawing',()=>{
+        console.log('done drawing');
         setTimeout(()=>{
-          this.$refs.mapComponent.drawLands(this.lands,this.$refs.mapComponent.map)
-        },2000);
+          console.log('loaded is true');
+          this.loadedMap= true;
+        },10000)
+      });
+
+      this.getLands((data) => {
+        console.log('getlands');
+        this.lands = data;
+        //this.$refs.mapComponent.drawLands(this.lands)
+        this.$root.$emit('drawLands',this.lands);
+
+
       });
 
     },
     methods: {
-      getLands: function (callback) {
+      getLands(callback) {
         axios
           .get("http://localhost:1000/api/geocoder/")
           .then(response => {
