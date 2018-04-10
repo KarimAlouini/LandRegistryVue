@@ -4,7 +4,7 @@
     <div class="post" v-for="post in posts" :class="{last: posts.indexOf(post) === posts.length - 1}">
 
       <div class="underscored">
-        <span class="text"><span class="name">{{post.info.localization}}</span> </span>
+        <span class="text"><span class="name">{{post.info._id}}</span> </span>
 
       </div>
     </div>
@@ -15,17 +15,6 @@
   export default {
     name: 'vuestic-feed',
     props: ['initialPosts'],
-    methods: {
-      removePost (target) {
-        let result = []
-        for (let post of this.posts) {
-          if (post !== target) {
-            result.push(post)
-          }
-        }
-        this.posts = result
-      }
-    },
     data () {
       return {
         posts: this.initialPosts
