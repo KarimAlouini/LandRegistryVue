@@ -7,9 +7,9 @@
 
     <div v-else>
       <ul>
-        <li v-for="t in transactions">
-          <h3>{{t.time}}</h3>
-          <h3>{{t.blockHash}}</h3>
+        <li v-for="t in transactions" >
+          <h6>{{t.time | moment("HH:mm DD/MM/YYYY")}}</h6>
+          <h6 style=" width: auto;word-break: break-all;color:#4ae387; ">{{t.blockHash}}</h6>
         </li>
       </ul>
     </div>
@@ -28,7 +28,8 @@
   import SpringSpinner from "epic-spinners/src/components/lib/SpringSpinner";
   import AtomSpinner from "epic-spinners/src/components/lib/AtomSpinner";
   import axios from 'axios'
-
+  import Vue from "vue"
+  Vue.use(require('vue-moment'));
   export default {
     name: 'blockchain-activity',
     components: {SpringSpinner, VuesticFeed, VuesticWidget, AtomSpinner},
