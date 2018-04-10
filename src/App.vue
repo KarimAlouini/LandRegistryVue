@@ -6,12 +6,20 @@
 </template>
 
 <script>
+  /* eslint-disable */
+
   import Layout from 'components/layout/Layout'
   import AuthLayout from 'components/layout/AuthLayout'
   import VuesticPreLoader from 'vuestic-components/vuestic-preloader/VuesticPreLoader.vue'
 
   export default {
     name: 'app',
+    data () {
+      return {
+       auth: false,
+       role: ''
+      }
+    },
     components: {
       VuesticPreLoader,
       AuthLayout,
@@ -21,6 +29,13 @@
       isAuth () {
         return this.$route.path.match('auth')
       }
+    },
+    mounted:function () {
+      this.$root.$on('login',function (res) {
+       this.auth=res.status;
+       this.role=res.role;
+       console.log(this.auth,"  ",this.role);
+      })
     }
   }
 </script>
