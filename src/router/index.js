@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomeComponent from '../components/Home/Home'
-import LandComponent from '../components/Home/Land'
 import menuModule from 'vuex-store/modules/menu'
 import LoginComponent from '../components/auth/login/Login'
 
@@ -18,11 +17,25 @@ if (process.env.NODE_ENV === 'development') {
   )
 }
 
-export default new Router({
-  routes: [{
+export default new Router(
+  {routes: [{
         path:'/',
         name:'home',
-        component:HomeComponent
+        component:HomeComponent},
+      {
+        path: '/agent/addUser',
+        name: 'addLand',
+        component: addUserComponent
+      },
+      {
+        path: '/agent/addLand',
+        name: 'addUser',
+        component: addLandComponent
+      },
+      {
+        path: '/agent/lands',
+        name: 'listLands',
+        component: listLands
   },
     {
       path:'/login',
@@ -39,10 +52,9 @@ export default new Router({
       redirect: { name: getDefaultRoute(menuModule.state.items).name }
     }
 
-  ]
-})
+]})
 
-function generateRoutesFromMenu (menu = [], routes = []) {
+function generateRoutesFromMenu(menu = [], routes = []) {
   for (let i = 0, l = menu.length; i < l; i++) {
     let item = menu[i]
     if (item.path) {
@@ -55,7 +67,7 @@ function generateRoutesFromMenu (menu = [], routes = []) {
   return routes
 }
 
-function getDefaultRoute (menu = []) {
+function getDefaultRoute(menu = []) {
   let defaultRoute
 
   menu.forEach((item) => {
