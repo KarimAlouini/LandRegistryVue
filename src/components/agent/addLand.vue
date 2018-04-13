@@ -2,7 +2,7 @@
   <div class="form-elements">
     <div v-if="!validation" class="row">
       <div class="col-md-12">
-        <vuestic-widget headerText="Add New User">
+        <vuestic-widget headerText="Add New Land">
           <form>
             <div class="row">
               <div class="col-md-12 form-group">
@@ -58,7 +58,7 @@
               </div>
               <div class="col-md-4 form-group">
                 <div class="input-group">
-                  <input id="latitude" type='number' v-model="Land.pins[index].latitude">
+                  <input id="latitude" type='number' v-model.number="Land.pins[index].latitude">
                   <label class="control-label" for="latitude">Latitude</label><i class="bar"></i>
                 </div>
               </div>
@@ -70,8 +70,9 @@
                 </div>
               </div>
             </div>
+            <br>
             <div class="row">
-              <div class="col-md-6 vuestic-checkbox form-check abc-checkbox abc-checkbox-primary">
+              <div class="col-md-6 offset-md-6 vuestic-checkbox form-check abc-checkbox abc-checkbox-primary">
                 <div class="input-group">
                   <input type="checkbox" id="checkbox1" name="" class="form-check-input" v-model="Land.dividable">
                   <label for="checkbox1" class="form-check-label">
@@ -79,14 +80,12 @@
                   </label>
                 </div>
               </div>
-              <div class="form-group">
-                <div class="upload-box">
-                  <div class="hold">
-                    <a>Maximum file size 20 MB</a>
-                    <span class="btn-file"> Browse File<input type="file" ref="fileRef" @change="loadFile"
-                                                              multiple></span>
-                  </div>
-                </div>
+            </div>
+            <div class="row">
+
+              <div class="col-md-10 offset-md-1 form-group">
+                <b-form-file multiple v-model="file" :state="Boolean(file)"
+                             placeholder="Choose a file..."></b-form-file>
               </div>
             </div>
             <div class="row">
@@ -144,9 +143,11 @@
                 <button class=" btn btn-danger" @click="validation=false">
                   Undo
                 </button>
-                <button class=" btn btn-primary" @click="addToAPI">
+                <router-link to="/agent/lands">
+                  <button class=" btn btn-primary" @click="addToAPI">
                   Validate
                 </button>
+                </router-link>
               </div>
             </div>
           </div>
@@ -176,6 +177,7 @@
         },
         inputs: [],
         files: [],
+        file: null,
         validation: false
       };
     },

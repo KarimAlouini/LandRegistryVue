@@ -8,19 +8,19 @@
 
     <div class="row navbar-container">
 
-      <div class="menu-icon-container d-flex align-items-center justify-content-center justify-content-lg-start col" >
+      <div class="menu-icon-container d-flex align-items-center justify-content-center justify-content-lg-start col">
         <a class="menu-icon i-menu-expanded" href="#" @click.prevent="toggleSidebar(false)" v-if="sidebarOpened"></a>
         <a class="menu-icon i-menu-collapsed" href="#" @click.prevent="toggleSidebar(true)" v-else></a>
       </div>
 
 
       <div class="col nav-item dropdown navbar-dropdown d-flex align-items-center justify-content-center hh" v-dropdown>
-        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#" @click.prevent="closeMenu">
+        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#"
+           @click.prevent="closeMenu">
           <span class="i-nav-notification notify"></span>
         </a>
         <div class="dropdown-menu ">
           <div class="dropdown-menu-content">
-
 
 
             <div class="dropdown-item plain-link-item">
@@ -31,9 +31,10 @@
       </div>
 
       <div class="col nav-item dropdown navbar-dropdown d-flex align-items-center justify-content-center" v-dropdown>
-        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#" @click.prevent="closeMenu">
+        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#"
+           @click.prevent="closeMenu">
           <span class="avatar-container">
-            <img src="http://i.imgur.com/nfa5itq.png" />
+            <img src="http://i.imgur.com/nfa5itq.png"/>
           </span>
         </a>
         <div class="dropdown-menu last">
@@ -42,8 +43,14 @@
               <a class="plain-link" href="#">{{'user.profile' | translate}}</a>
             </div>
             <div class="dropdown-item plain-link-item">
+              <router-link to="/agent/addUser">
+              <a class="plain-link" href="#">Add User</a>
+              </router-link>
+            </div>
+            <div class="dropdown-item plain-link-item">
               <a class="plain-link" href="#">{{'user.logout' | translate}}</a>
             </div>
+
           </div>
         </div>
       </div>
@@ -52,7 +59,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import LanguageSelector from './LanguageSelector'
 
   export default {
@@ -84,9 +91,7 @@
   @import "~bootstrap/scss/functions";
   @import "~bootstrap/scss/variables";
 
-
-
-  b{
+  b {
     padding-left: 20%;
   }
 
@@ -139,8 +144,8 @@
       .dropdown-toggle {
         padding: 0;
         &:after {
-           display: none;
-         }
+          display: none;
+        }
       }
 
       &.show {
@@ -151,17 +156,17 @@
           }
         }
         &:after {
-           position: absolute;
-           bottom: -$dropdown-show-b;
-           right: calc(50% - 10px);
-           width: 0;
-           height: 0;
-           display: block;
-           content: '';
-           border-left: 10px solid transparent;
-           border-right: 10px solid transparent;
-           border-bottom: 10px solid $darkest-gray;
-         }
+          position: absolute;
+          bottom: -$dropdown-show-b;
+          right: calc(50% - 10px);
+          width: 0;
+          height: 0;
+          display: block;
+          content: '';
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-bottom: 10px solid $darkest-gray;
+        }
       }
 
       .dropdown-menu {
@@ -169,7 +174,6 @@
         padding-top: 0;
         width: 100%;
       }
-
 
       .dropdown-item {
         height: $navbar-dd-item-height;
@@ -198,15 +202,15 @@
       position: relative;
 
       &::after {
-         content: '';
-         position: absolute;
-         right: -6px;
-         top: -6px;
-         background-color: $brand-primary;
-         height: 12px;
-         width: 12px;
-         border-radius: 50%;
-       }
+        content: '';
+        position: absolute;
+        right: -6px;
+        top: -6px;
+        background-color: $brand-primary;
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+      }
     }
 
     .i-nav-notification.notify::after {

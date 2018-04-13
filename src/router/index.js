@@ -8,6 +8,7 @@ import LoginComponent from '../components/auth/login/Login'
 import addLandComponent from '../components/agent/addLand'
 import addUserComponent from '../components/agent/addUser'
 import listLands from '../components/agent/listLands'
+import listUser from '../components/agent/listUser'
 
 Vue.use(Router)
 
@@ -42,6 +43,11 @@ export default new Router(
         path: '/agent/lands',
         name: 'listLands',
         component: listLands
+      },
+      {
+        path: '/agent/users',
+        name: 'listUser',
+        component: listUser
       },
       {
         path: '/login',

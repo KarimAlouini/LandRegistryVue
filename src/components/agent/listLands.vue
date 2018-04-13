@@ -2,99 +2,37 @@
   <div class="col-md-12">
     <div class="row">
       <div class="col-md-12">
-        <vuestic-widget :headerText="$t('tables.styled')">
+        <vuestic-widget headerText="Lands">
+
           <div class="table-responsive">
             <table class="table table-striped table-sm color-icon-label-table">
               <thead>
               <tr>
-                <td></td>
-                <td>{{'tables.headings.name' | translate}}</td>
-                <td>{{'tables.headings.email' | translate}}</td>
-                <td>{{'tables.headings.city' | translate}}</td>
-                <td align="right">{{'tables.headings.score' | translate}}</td>
-                <td align="middle"></td>
+                <td>Index</td>
+                <td>Owner First Name</td>
+                <td>Owner Last Name</td>
+                <td>Land Address</td>
+                <td align="middle">Land Area</td>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td></td>
-                <td>Matthew McCormick</td>
-                <td>matthew30@mail.ol</td>
-                <td>Vancouver</td>
-                <td align="right">93</td>
-                <td align="middle"></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>Nancy Bo</td>
-                <td>nancy@boonweb.com</td>
-                <td>Washington</td>
-                <td align="right">280</td>
-                <td align="middle"></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>Frederiko Lopez</td>
-                <td>fr.lopez@webmail.sp</td>
-                <td>Barcelona</td>
-                <td align="right">16</td>
-                <td align="middle"></td>
-              </tr>
-              <tr class="table-danger">
-                <td>
-                  <span class="badge badge-pill badge-danger">DANGER</span>
+              <tr v-for="(land_alias,index) in Land" :key="land_alias.id">
+                <td>{{ index+1 }}</td>
+                <td>{{ land_alias.owner.fname }}</td>
+                <td>{{ land_alias.owner.lname }}</td>
+                <td>{{ land_alias.localization.city }}, {{land_alias.localization.street}},
+                  {{land_alias.localization.number}}
                 </td>
-                <td>Stanley Hummer</td>
-                <td>mr_winner_2999@gmail.cb</td>
-                <td>Manchester</td>
-                <td align="right">57</td>
-                <td align="middle">
-                  <i class="fa fa-exclamation-triangle icon-right input-icon error-icon"></i>
-                </td>
-              </tr>
-              <tr class="table-success">
-                <td>
-                  <span class="badge badge-pill badge-primary">SUCCESS</span>
-                </td>
-                <td>Lendley Wintz</td>
-                <td>9938198146@mailster.io</td>
-                <td>Wien</td>
-                <td align="right">113</td>
-                <td align="middle" class="valid">
-                  <i class="fa fa-check success-icon icon-right input-icon"></i>
-                </td>
-              </tr>
-              <tr class="table-warning">
-                <td>
-                  <span class="badge badge-pill badge-warning">WARNING</span>
-                </td>
-                <td>Barbara Noz</td>
-                <td>barbaranoz@mailster.io</td>
-                <td>Brussels</td>
-                <td align="right">68</td>
-                <td align="middle"></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>Matthew McCormick</td>
-                <td>matthew30@mail.ol</td>
-                <td>Vancouver</td>
-                <td align="right">93</td>
-                <td align="middle"></td>
-              </tr>
-              <tr class="table-info">
-                <td>
-                  <span class="badge badge-pill badge-info">INFO</span>
-                </td>
-                <td>Nancy Bo</td>
-                <td>nancy@boonweb.com</td>
-                <td>Washington</td>
-                <td align="right">280</td>
-                <td align="middle"></td>
+                <td align="middle">{{ land_alias.area }}</td>
               </tr>
               </tbody>
             </table>
           </div>
+          <router-link to="/agent/addLand">
+            <button class=" btn btn-primary">
+              Add Land
+            </button>
+          </router-link>
         </vuestic-widget>
       </div>
     </div>
@@ -102,8 +40,27 @@
 </template>
 
 <script>
+  /* eslint-disable */
+  import axios from 'axios'
+
   export default {
-    name: "list-lands"
+    name: "list-lands",
+    data() {
+      return {
+        Land: []
+      };
+    },
+    mounted() {
+      axios
+        .get("http://localhost:1000/api/lands/GetLandsFromCache")
+        .then(response => {
+          console.log(response.data);
+          this.Land = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 </script>
 

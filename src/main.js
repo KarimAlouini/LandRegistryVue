@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 /*eslint-disable*/
 import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
 import VeeValidate from 'vee-validate'
 import App from './App'
 import store from './store'
@@ -11,6 +12,7 @@ import VuesticPlugin from 'vuestic-theme/vuestic-plugin'
 import './i18n'
 
 Vue.use(VuesticPlugin)
+Vue.use(BootstrapVue);
 
 // NOTE: workaround for VeeValidate + vuetable-2
 Vue.use(VeeValidate, {fieldsBagName: 'formFields'})

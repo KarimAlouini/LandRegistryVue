@@ -11,6 +11,8 @@
   import Layout from 'components/layout/Layout'
   import AuthLayout from 'components/layout/AuthLayout'
   import VuesticPreLoader from 'vuestic-components/vuestic-preloader/VuesticPreLoader.vue'
+  import 'bootstrap/dist/css/bootstrap.css'
+  import 'bootstrap-vue/dist/bootstrap-vue.css'
 
   export default {
     name: 'app',

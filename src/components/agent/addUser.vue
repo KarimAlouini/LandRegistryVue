@@ -127,9 +127,11 @@
                 <button class=" btn btn-danger" @click="validation=false">
                   Undo
                 </button>
-                <button class=" btn btn-primary" @click="addToAPI">
-                  Validate
-                </button>
+                <router-link to="/agent/users">
+                  <button class=" btn btn-primary" @click="addToAPI">
+                    Validate
+                  </button>
+                </router-link>
               </div>
             </div>
           </div>
