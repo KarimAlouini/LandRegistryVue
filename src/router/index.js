@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomeComponent from '../components/Home/Home'
+import LandComponent from '../components/Home/Land'
 import menuModule from 'vuex-store/modules/menu'
 import LoginComponent from '../components/auth/login/Login'
 
@@ -29,9 +30,15 @@ export default new Router({
       component:LoginComponent
     },
     {
+      path:"/land/:id",
+      name:"land",
+      component:LandComponent
+    },
+    {
       path: '*',
       redirect: { name: getDefaultRoute(menuModule.state.items).name }
     }
+
   ]
 })
 
