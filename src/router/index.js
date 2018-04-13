@@ -22,13 +22,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export default new Router(
-  {
-    routes: [
-      {
-        path: '/',
-        name: 'home',
-        component: HomeComponent
-      },
+  {routes: [{
+        path:'/',
+        name:'home',
+        component:HomeComponent},
       {
         path: '/agent/addUser',
         name: 'addLand',
@@ -43,23 +40,28 @@ export default new Router(
         path: '/agent/lands',
         name: 'listLands',
         component: listLands
-      },
+  },
       {
         path: '/agent/users',
         name: 'listUser',
         component: listUser
       },
-      {
-        path: '/login',
-        name: 'login',
-        component: LoginComponent
-      },
-      {
-        path: '*',
-        redirect: {name: getDefaultRoute(menuModule.state.items).name}
-      }
-    ]
-  })
+    {
+      path:'/login',
+      name:'login',
+      component:LoginComponent
+    },
+    {
+      path:"/land/:id",
+      name:"land",
+      component:LandComponent
+    },
+    {
+      path: '*',
+      redirect: { name: getDefaultRoute(menuModule.state.items).name }
+    }
+
+]})
 
 function generateRoutesFromMenu(menu = [], routes = []) {
   for (let i = 0, l = menu.length; i < l; i++) {

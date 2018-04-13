@@ -1,6 +1,16 @@
 <template>
-  <div v-show="doneDrawing" class="google-map" id="map">
+  <div v-show="doneDrawing" class="google-map" id="map" ref="map">
     <atom-spinner style="margin:0 auto" v-show="!doneDrawing" color="#4ae387" class="text-center"></atom-spinner>
+
+    <div ref="window" v-if="land !== null">
+      {{land.info.area}} m² @ {{land.info.number}} , {{land.info.localization.street}} th ,
+      {{land.info.localization.city}} [{{land.info.localization.zipCode}}]<br><br>
+      <center> <router-link :to="{ name: 'land', params: { id:land.info._id}}"><button class="btn btn-primary">Visit</button></router-link></center>
+
+
+    </div>
+
+
   </div>
 </template>
 
@@ -19,13 +29,15 @@
     components: {AtomSpinner},
     data() {
       return {
-        doneDrawing: false
+        doneDrawing: false,
+        land: null
       }
     },
     computed: mapGetters({
       config: 'config'
     }),
     mounted() {
+
       GoogleMapsLoader.KEY = this.config.googleMaps.apiKey
       var ref = this;
       GoogleMapsLoader.load((google) => {
@@ -47,25 +59,30 @@
     methods: {
       drawLands(lands, callback) {
         async.forEachOf(lands, (land) => {
-          var coordinates = [];
-          async.forEachOf(land.info.pins, (p, index) => {
-            coordinates.push({
-              lat: p.latitude,
-              lng: p.longitude
-            });
-          });
-
+          var coordinates = mapsUtil.constructCoordinatesFromLand(land);
           var marker = new google.maps.Marker({
             position: mapsUtil.getBounds(coordinates).getCenter(),
             map: this.map,
 
           });
-          var infowindow = new google.maps.InfoWindow();
 
-          google.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map, marker);
-          });
+
+          let ref = this;
+
+
           google.maps.event.addListener(marker, 'click', (event) => {
+            this.land = land;
+            setTimeout(() => {
+              ref.$refs.map.onclick = () => {
+                    infowindow.close();
+              };
+              var infowindow = new google.maps.InfoWindow({
+                content: ref.$refs.window
+              });
+
+
+              infowindow.open(map, marker);
+            }, 100);
             this.map.setZoom(mapsUtil.getBoundsZoomLevel(mapsUtil.getBounds(coordinates), {height: 300, width: 300}))
             this.map.panTo(mapsUtil.getBounds(coordinates).getCenter());
           });
