@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import * as types from '../mutation-types'
 
 const state = {
@@ -27,30 +28,43 @@ const state = {
 }
 
 const mutations = {
-  [types.CLOSE_MENU] (state) {
+
+  [types.CLOSE_MENU](state) {
+    var sideBarStatus = localStorage.getItem('sidebar');
+    if (sideBarStatus === '0') {
+
+      state.sidebar.opened = false
+      console.log('closed');
+    }
+    else {
+      state.sidebar.opened = true
+      console.log('open');
+    }
     if (document.documentElement.clientWidth < 992) {
       state.sidebar.opened = false
     }
   },
-  [types.TOGGLE_SIDEBAR] (state, opened) {
+  [types.TOGGLE_SIDEBAR](state, opened) {
     state.sidebar.opened = opened
   },
-  [types.TOGGLE_WITHOUT_ANIMATION] (state, value) {
+  [types.TOGGLE_WITHOUT_ANIMATION](state, value) {
     state.sidebar.withoutAnimation = value
   },
-  setLoading (state, isLoading) {
+  setLoading(state, isLoading) {
     state.isLoading = isLoading
   }
 }
 
 const actions = {
-  closeMenu ({ commit }) {
+  closeMenu({commit}) {
     commit(types.CLOSE_MENU)
   },
-  toggleSidebar ({ commit }, opened) {
+  toggleSidebar({commit}, opened) {
+    let state = opened ? 1 : 0;
+    localStorage.setItem('sidebar', state);
     commit(types.TOGGLE_SIDEBAR, opened)
   },
-  isToggleWithoutAnimation ({ commit }, value) {
+  isToggleWithoutAnimation({commit}, value) {
     commit(types.TOGGLE_WITHOUT_ANIMATION, value)
   }
 }

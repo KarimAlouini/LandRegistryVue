@@ -55,7 +55,6 @@
         axios
           .get("http://localhost:1000/api/lands/AllTransaction")
           .then(resp => {
-            console.log(resp.data);
             callback(resp.data)
           })
           .catch(err => {
