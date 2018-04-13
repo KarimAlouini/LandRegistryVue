@@ -5,6 +5,9 @@ import Router from 'vue-router'
 import HomeComponent from '../components/Home/Home'
 import menuModule from 'vuex-store/modules/menu'
 import LoginComponent from '../components/auth/login/Login'
+import addLandComponent from '../components/agent/addLand'
+import addUserComponent from '../components/agent/addUser'
+import listLands from '../components/agent/listLands'
 
 Vue.use(Router)
 
@@ -17,25 +20,42 @@ if (process.env.NODE_ENV === 'development') {
   )
 }
 
-export default new Router({
-  routes: [{
-        path:'/',
-        name:'home',
-        component:HomeComponent
-  },
-    {
-      path:'/login',
-      name:'login',
-      component:LoginComponent
-    },
-    {
-      path: '*',
-      redirect: { name: getDefaultRoute(menuModule.state.items).name }
-    }
-  ]
-})
+export default new Router(
+  {
+    routes: [
+      {
+        path: '/',
+        name: 'home',
+        component: HomeComponent
+      },
+      {
+        path: '/agent/addUser',
+        name: 'addLand',
+        component: addUserComponent
+      },
+      {
+        path: '/agent/addLand',
+        name: 'addUser',
+        component: addLandComponent
+      },
+      {
+        path: '/agent/lands',
+        name: 'listLands',
+        component: listLands
+      },
+      {
+        path: '/login',
+        name: 'login',
+        component: LoginComponent
+      },
+      {
+        path: '*',
+        redirect: {name: getDefaultRoute(menuModule.state.items).name}
+      }
+    ]
+  })
 
-function generateRoutesFromMenu (menu = [], routes = []) {
+function generateRoutesFromMenu(menu = [], routes = []) {
   for (let i = 0, l = menu.length; i < l; i++) {
     let item = menu[i]
     if (item.path) {
@@ -48,7 +68,7 @@ function generateRoutesFromMenu (menu = [], routes = []) {
   return routes
 }
 
-function getDefaultRoute (menu = []) {
+function getDefaultRoute(menu = []) {
   let defaultRoute
 
   menu.forEach((item) => {
