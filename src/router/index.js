@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomeComponent from '../components/Home/Home'
+import LandComponent from '../components/Home/Land'
 import menuModule from 'vuex-store/modules/menu'
 import LoginComponent from '../components/auth/login/Login'
 import addLandComponent from '../components/agent/addLand'
@@ -22,29 +23,66 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export default new Router(
-  {routes: [{
+  { mode: 'history',
+    routes: [{
         path:'/',
         name:'home',
         component:HomeComponent},
       {
         path: '/agent/addUser',
         name: 'addLand',
-        component: addUserComponent
+        component: addUserComponent,
+        beforeEnter: (to, from, next) => {
+          if(localStorage.getItem('token') ==null || localStorage.getItem('connectedUserRole')!="admin"){
+            next('/login')
+          }
+          else{
+            next()
+
+          }
+        }
       },
       {
         path: '/agent/addLand',
         name: 'addUser',
-        component: addLandComponent
+        component: addLandComponent,
+        beforeEnter: (to, from, next) => {
+          if(localStorage.getItem('token') ==null || localStorage.getItem('connectedUserRole')!="admin"){
+          next('/login')
+          }
+          else{
+          next()
+
+          }
+        }
       },
       {
         path: '/agent/lands',
         name: 'listLands',
-        component: listLands
+        component: listLands,
+        beforeEnter: (to, from, next) => {
+          if(localStorage.getItem('token') ==null || localStorage.getItem('connectedUserRole')!="admin"){
+            next('/login')
+          }
+          else{
+            next()
+
+          }
+        }
   },
       {
         path: '/agent/users',
         name: 'listUser',
-        component: listUser
+        component: listUser,
+        beforeEnter: (to, from, next) => {
+          if(localStorage.getItem('token') ==null || localStorage.getItem('connectedUserRole')!="admin"){
+            next('/login')
+          }
+          else{
+            next()
+
+          }
+        }
       },
     {
       path:'/login',

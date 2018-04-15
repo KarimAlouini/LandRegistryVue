@@ -1,12 +1,13 @@
 <template>
   <nav class="navbar app-navbar navbar-toggleable-md">
+    <!--logo-->
     <div class="navbar-brand-container d-flex align-items-center justify-content-start">
       <a class="navbar-brand" href="#/dashboard">
         <i class="i-vuestic"></i>
       </a>
     </div>
-
-    <div class="row navbar-container">
+    <!--default-->
+    <div v-if="isConnected==false" class="row navbar-container">
 
       <div class="menu-icon-container d-flex align-items-center justify-content-center justify-content-lg-start col">
         <a class="menu-icon i-menu-expanded" href="#" @click.prevent="toggleSidebar(false)" v-if="sidebarOpened"></a>
@@ -14,59 +15,66 @@
       </div>
 
 
-      <div class="col nav-item dropdown navbar-dropdown d-flex align-items-center justify-content-center hh" v-dropdown>
-        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#"
-           @click.prevent="closeMenu">
-          <span class="i-nav-notification notify"></span>
+      <div class="col nav-item dropdown navbar-dropdown d-flex align-items-md-end justify-content-md-end" >
+        <a class="btn btn-primary btn-micro" href='http://localhost:8080/login'>
+            LOGIN
         </a>
-        <div class="dropdown-menu ">
-          <div class="dropdown-menu-content">
+      </div>
+    </div>
+    <div v-if="isConnected==true" class="row navbar-container">
 
-
-            <div class="dropdown-item plain-link-item">
-              <a class="plain-link" href="#">{{'notifications.all' | translate}}</a>
-            </div>
-          </div>
-        </div>
+      <div class="menu-icon-container d-flex align-items-center justify-content-center justify-content-lg-start col">
+        <a class="menu-icon i-menu-expanded" href="#" @click.prevent="toggleSidebar(false)" v-if="sidebarOpened"></a>
+        <a class="menu-icon i-menu-collapsed" href="#" @click.prevent="toggleSidebar(true)" v-else></a>
       </div>
 
       <div class="col nav-item dropdown navbar-dropdown d-flex align-items-center justify-content-center" v-dropdown>
         <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#"
            @click.prevent="closeMenu">
           <span class="avatar-container">
-            <img src="http://i.imgur.com/nfa5itq.png"/>
+            <img src="http://i.imgur.com/1o5QHwh.png"/>
           </span>
         </a>
         <div class="dropdown-menu last">
           <div class="dropdown-menu-content">
-            <div class="dropdown-item plain-link-item">
-              <a class="plain-link" href="#">{{'user.profile' | translate}}</a>
+            <div v-if="this.role=='user'" class="dropdown-item plain-link-item">
+              <a class="plain-link" href="#">My Lands</a>
             </div>
-            <div class="dropdown-item plain-link-item">
-              <router-link to="/agent/addUser">
+            <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
+              <a class="plain-link" href="#">All Lands</a>
+            </div>
+            <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
               <a class="plain-link" href="#">Add User</a>
-              </router-link>
             </div>
             <div class="dropdown-item plain-link-item">
-              <a class="plain-link" href="#">{{'user.logout' | translate}}</a>
+              <a class="plain-link" href="#" @click="logout">Logout</a>
             </div>
+
 
           </div>
         </div>
       </div>
     </div>
   </nav>
+
+
 </template>
 
 <script>
+  /*eslint-disable*/
   import {mapGetters, mapActions} from 'vuex'
   import LanguageSelector from './LanguageSelector'
 
   export default {
     name: 'navbar',
-
     components: {
       LanguageSelector
+    },
+    data(){
+      return{
+        isConnected:false,
+        role:''
+      }
     },
     computed: {
       ...mapGetters([
@@ -74,13 +82,27 @@
         'toggleWithoutAnimation'
       ])
     },
-
     methods: {
+      logout(){
+        localStorage.clear();
+        window.location.replace("http://localhost:8080/login");
+      },
       ...mapActions([
         'closeMenu',
         'toggleSidebar',
         'isToggleWithoutAnimation'
       ])
+    },
+    mounted: function () {
+      //
+      if(localStorage.getItem('token')!=null){
+       this.isConnected = true
+       this.role = localStorage.getItem('connectedUserRole');
+      }
+      //localStorage.setItem("token",'token');
+      //localStorage.setItem("connectedUserRole",'user');
+
+
     }
   }
 </script>

@@ -17,7 +17,8 @@
           </div>
         </div>
         <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between down-container">
-          <input type="submit"class="btn btn-primary" @click="test" value="Login">
+          <input type="submit"class="btn btn-primary" @click="doLogin" value="Login">
+          <h6>{{this.msg}}</h6>
         </div>
     </div>
   </vuestic-widget>
@@ -63,6 +64,7 @@
           })
           .catch(error => {
             this.msg = "Unvalide Login Or Password"
+
           });
       }
     }
