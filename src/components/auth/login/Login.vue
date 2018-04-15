@@ -55,7 +55,7 @@
               .then(resp => {
                 localStorage.setItem("token",resp.data.token);
                 localStorage.setItem("connectedUserRole",response.data.role);
-                window.location.replace("http://localhost:8080/#/");
+                window.location.replace("http://localhost:8080/");
 
               })
               .catch(err => {

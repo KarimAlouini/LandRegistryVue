@@ -28,6 +28,22 @@
         <a class="menu-icon i-menu-collapsed" href="#" @click.prevent="toggleSidebar(true)" v-else></a>
       </div>
 
+      <div class="col nav-item dropdown navbar-dropdown d-flex align-items-center justify-content-center hh" v-dropdown>
+        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#"
+           @click.prevent="closeMenu">
+          <span class="i-nav-notification notify"></span>
+        </a>
+        <div class="dropdown-menu ">
+          <div class="dropdown-menu-content">
+
+
+            <div class="dropdown-item plain-link-item">
+              <a class="plain-link" href="#">{{'notifications.all' | translate}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="col nav-item dropdown navbar-dropdown d-flex align-items-center justify-content-center" v-dropdown>
         <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#"
            @click.prevent="closeMenu">
@@ -41,10 +57,13 @@
               <a class="plain-link" href="#">My Lands</a>
             </div>
             <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
-              <a class="plain-link" href="#">All Lands</a>
+              <a class="plain-link" href="http://localhost:8080/agent/lands">All Lands</a>
             </div>
             <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
-              <a class="plain-link" href="#">Add User</a>
+              <a class="plain-link" href="http://localhost:8080/agent/users">All User</a>
+            </div>
+            <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
+              <a class="plain-link" href="http://localhost:8080/agent/addLand">Add Land</a>
             </div>
             <div class="dropdown-item plain-link-item">
               <a class="plain-link" href="#" @click="logout">Logout</a>
