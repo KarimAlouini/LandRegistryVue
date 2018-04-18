@@ -16,9 +16,11 @@
 
 
       <div class="col nav-item dropdown navbar-dropdown d-flex align-items-md-end justify-content-md-end" >
-        <a class="btn btn-primary btn-micro" href='http://localhost:8080/login'>
+        <button class="btn btn-primary btn-micro" @click="gotothispath('login')">
             LOGIN
-        </a>
+        </button>
+
+
       </div>
     </div>
     <div v-if="isConnected==true" class="row navbar-container">
@@ -57,16 +59,16 @@
               <a class="plain-link" href="#">My Lands</a>
             </div>
             <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
-              <a class="plain-link" href="http://localhost:8080/agent/lands">All Lands</a>
+              <a class="plain-link" @click="gotothispath('listLands')">All Lands</a>
             </div>
             <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
-              <a class="plain-link" href="http://localhost:8080/agent/users">All User</a>
+              <a class="plain-link" @click="gotothispath('listUser')">All User</a>
             </div>
             <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
-              <a class="plain-link" href="http://localhost:8080/agent/addLand">Add Land</a>
+              <a class="plain-link" @click="gotothispath('addUser')">Add Land</a>
             </div>
             <div class="dropdown-item plain-link-item">
-              <a class="plain-link" href="#" @click="logout">Logout</a>
+              <a class="plain-link" @click="logout">Logout</a>
             </div>
 
 
@@ -102,9 +104,13 @@
       ])
     },
     methods: {
+      gotothispath(path){
+        this.$router.push({name:path})
+      },
       logout(){
         localStorage.clear();
-        window.location.replace("http://localhost:8080/login");
+        //this.$router.push({name:'login'});
+        window.location.replace("http://localhost:8080/login")
       },
       ...mapActions([
         'closeMenu',
@@ -119,7 +125,7 @@
        this.role = localStorage.getItem('connectedUserRole');
       }
       //localStorage.setItem("token",'token');
-      //localStorage.setItem("connectedUserRole",'user');
+      //localStorage.setItem("connectedUserRole",'admin');
 
 
     }
