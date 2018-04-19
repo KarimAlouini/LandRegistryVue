@@ -5,9 +5,7 @@
     <div ref="window" v-if="land !== null">
       {{land.info.area}} m² @ {{land.info.number}} , {{land.info.localization.street}} th ,
       {{land.info.localization.city}} [{{land.info.localization.zipCode}}]<br><br>
-      <center> <router-link :to="{ name: 'land', params: { id:land.info._id}}"><button class="btn btn-primary">Visit</button></router-link></center>
-
-
+      <center> <router-link :to="{ name: 'land', params: { id:land.info._id}}"><button class="btn btn-micro btn-primary">Visit</button></router-link></center>
     </div>
 
 
@@ -30,13 +28,16 @@
     data() {
       return {
         doneDrawing: false,
-        land: null
+        land: null,
+        showM:true
       }
     },
     computed: mapGetters({
       config: 'config'
     }),
+    props:['showMarkers'],
     mounted() {
+
 
       GoogleMapsLoader.KEY = this.config.googleMaps.apiKey
       var ref = this;
@@ -54,38 +55,39 @@
           });
         })
 
-      })
+      });
+
+      this.$root.$on('panToCity',(value)=>{
+        this.map.setZoom(12);
+        this.map.panTo(value);
+      });
     },
     methods: {
       drawLands(lands, callback) {
         async.forEachOf(lands, (land) => {
           var coordinates = mapsUtil.constructCoordinatesFromLand(land);
-          var marker = new google.maps.Marker({
-            position: mapsUtil.getBounds(coordinates).getCenter(),
-            map: this.map,
+          if (this.showMarkers){
+            var marker = new google.maps.Marker({
+              position: mapsUtil.getBounds(coordinates).getCenter(),
+              map: this.map,
 
-          });
-
-
-          let ref = this;
-
-
-          google.maps.event.addListener(marker, 'click', (event) => {
-            this.land = land;
-            setTimeout(() => {
-              ref.$refs.map.onclick = () => {
-                    infowindow.close();
-              };
-              var infowindow = new google.maps.InfoWindow({
-                content: ref.$refs.window
-              });
-
-
-              infowindow.open(map, marker);
-            }, 100);
-            this.map.setZoom(mapsUtil.getBoundsZoomLevel(mapsUtil.getBounds(coordinates), {height: 300, width: 300}))
-            this.map.panTo(mapsUtil.getBounds(coordinates).getCenter());
-          });
+            });
+            let ref = this;
+            google.maps.event.addListener(marker, 'click', (event) => {
+              this.land = land;
+              setTimeout(() => {
+                ref.$refs.map.onclick = () => {
+                  infowindow.close();
+                };
+                var infowindow = new google.maps.InfoWindow({
+                  content: ref.$refs.window
+                });
+                infowindow.open(map, marker);
+              }, 100);
+              this.map.setZoom(mapsUtil.getBoundsZoomLevel(mapsUtil.getBounds(coordinates), {height: 300, width: 300}))
+              this.map.panTo(mapsUtil.getBounds(coordinates).getCenter());
+            });
+          }
           let color = randomColor();
           let polygon = new google.maps.Polygon({
             paths: coordinates,

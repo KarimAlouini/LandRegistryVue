@@ -1,7 +1,7 @@
 <template>
   <div :class="classObject" v-resize>
     <navbar></navbar>
-    <sidebar></sidebar>
+    <sidebar v-cloak></sidebar>
 
     <div class="content-wrap" id="content-wrap">
       <main id="content" class="content" role="main">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="made-by-footer">
-      ©2018. Made by&nbsp;<a href="http://epicmax.co" target="_blank">Epicmax</a>
+      Quadra© 2018.
     </div>
   </div>
 </template>
@@ -92,5 +92,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  [v-cloak]{
+    display:none;
   }
 </style>

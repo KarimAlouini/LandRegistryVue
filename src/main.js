@@ -10,6 +10,7 @@ import router from './router'
 import { sync } from 'vuex-router-sync'
 import VuesticPlugin from 'vuestic-theme/vuestic-plugin'
 import './i18n'
+import Autocomplete from 'vuejs-auto-complete'
 
 Vue.use(VuesticPlugin)
 Vue.use(BootstrapVue);
@@ -43,5 +44,5 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App ,Autocomplete}
 })

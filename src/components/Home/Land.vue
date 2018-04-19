@@ -1,4 +1,23 @@
 <template>
+  <div class="dashboard">
+    <vuestic-widget class="no-padding no-v-padding">
+
+      <vuestic-tabs :names="names">
+        <div :slot="names[0]">
+         <google-map :show-markers=false></google-map>
+        </div>
+        <div :slot="names[1]">
+          <data-visualisation-tab></data-visualisation-tab>
+        </div>
+        <div :slot="names[2]">
+          <data-visualisation-tab></data-visualisation-tab>
+        </div>
+        <div :slot="names[3]">
+          <data-visualisation-tab></data-visualisation-tab>
+        </div>
+      </vuestic-tabs>
+    </vuestic-widget>
+  </div>
 
 </template>
 
@@ -7,30 +26,34 @@
   import VuesticWidget from "../../vuestic-theme/vuestic-components/vuestic-widget/VuesticWidget";
   import GoogleMap from "../maps/google-maps/GoogleMap";
   import axios from 'axios'
-  import VuesticDataTable from "../../vuestic-theme/vuestic-components/vuestic-datatable/VuesticDataTable";
-  import FilterBar from "../../vuestic-theme/vuestic-components/vuestic-datatable/datatable-components/FilterBar";
-  import ItemsPerPage from "../../vuestic-theme/vuestic-components/vuestic-datatable/datatable-components/ItemsPerPage";
-  import VuesticFeed from "../../vuestic-theme/vuestic-components/vuestic-feed/VuesticFeed";
-  import SpringSpinner from "epic-spinners/src/components/lib/SpringSpinner";
-  import AtomSpinner from "epic-spinners/src/components/lib/AtomSpinner";
-  import LandListHome from "./LandList";
+  import VuesticTabs from "../../vuestic-theme/vuestic-components/vuestic-tabs/VuesticTabs";
+  import DataVisualisationTab from "../dashboard/data-visualisation-tab/DataVisualisation";
 
 
   export default {
     name: 'dashboard',
     components: {
+      GoogleMap,
+      DataVisualisationTab,
+      VuesticWidget,
+      VuesticTabs
 
     }, data() {
-        return{
-          breadcrumbs: ['Home']
-        }
+      return {
+        breadcrumbs: ['Home'],
+        names: [
+          'Localization',
+          'History',
+          'Documents',
+          'Owner info'
+        ]
+      }
     },
     mounted: function () {
-
+          axios.get()
 
     },
-    methods: {
-    }
+    methods: {}
   }
 </script>
 
