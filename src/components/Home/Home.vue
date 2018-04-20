@@ -82,7 +82,6 @@
       this.getLands((data) => {
         console.log('getlands');
         this.lands = data;
-        //this.$refs.mapComponent.drawLands(this.lands)
         this.$root.$emit('drawLands', this.lands);
 
 

@@ -5,7 +5,9 @@
     <div ref="window" v-if="land !== null">
       {{land.info.area}} m² @ {{land.info.number}} , {{land.info.localization.street}} th ,
       {{land.info.localization.city}} [{{land.info.localization.zipCode}}]<br><br>
-      <center> <router-link :to="{ name: 'land', params: { id:land.info._id}}"><button class="btn btn-micro btn-primary">Visit</button></router-link></center>
+      <center>
+       <router-link :to="{ name: 'land', params: { id:land.info._id}}"><button class="btn btn-micro btn-primary">Visit</button></router-link>
+      </center>
     </div>
 
 
