@@ -15,9 +15,9 @@
       </div>
 
 
-      <div class="col nav-item dropdown navbar-dropdown d-flex align-items-md-end justify-content-md-end" >
+      <div class="col nav-item dropdown navbar-dropdown d-flex align-items-md-end justify-content-md-end">
         <button class="btn btn-primary btn-micro" @click="gotothispath('login')">
-            LOGIN
+          LOGIN
         </button>
 
 
@@ -91,10 +91,10 @@
     components: {
       LanguageSelector
     },
-    data(){
-      return{
-        isConnected:false,
-        role:''
+    data() {
+      return {
+        isConnected: false,
+        role: ''
       }
     },
     computed: {
@@ -104,13 +104,14 @@
       ])
     },
     methods: {
-      gotothispath(path){
-        this.$router.push({name:path})
+      gotothispath(path) {
+        this.$router.push({name: path})
       },
-      logout(){
+      logout() {
         localStorage.clear();
-        //this.$router.push({name:'login'});
-        window.location.replace("http://localhost:8080/login")
+        this.isConnected = false;
+        this.$root.$emit('userLoggedIn');
+        this.$router.push('/');
       },
       ...mapActions([
         'closeMenu',
@@ -119,10 +120,19 @@
       ])
     },
     mounted: function () {
+
+
+      this.$root.$on('userLoggedin', () => {
+        if (localStorage.getItem('token') != null) {
+          this.isConnected = true
+          this.role = localStorage.getItem('connectedUserRole');
+        }
+      });
+
       //
-      if(localStorage.getItem('token')!=null){
-       this.isConnected = true
-       this.role = localStorage.getItem('connectedUserRole');
+      if (localStorage.getItem('token') != null) {
+        this.isConnected = true
+        this.role = localStorage.getItem('connectedUserRole');
       }
       //localStorage.setItem("token",'token');
       //localStorage.setItem("connectedUserRole",'admin');

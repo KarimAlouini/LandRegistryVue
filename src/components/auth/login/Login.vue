@@ -33,18 +33,20 @@
   export default {
     components: {VuesticWidget},
     name: 'login',
+
     data() {
       return {
         login: '',
         pwd: '',
         msg: '',
-        token: ''
+        token: '',
+        parent:null
       }
     },
     methods: {
-     
+
       doLogin() {
-        let ref = this;
+
         axios
           .post("http://localhost:1000/api/users/AgentLogin", {"login":this.login,"pwd":this.pwd})
           .then(response => {
@@ -54,6 +56,7 @@
               .then(resp => {
                 localStorage.setItem("token",resp.data.token);
                 localStorage.setItem("connectedUserRole",response.data.role);
+                this.$root.$emit('userLoggedin');
                 this.$router.push('/');
 
               })
