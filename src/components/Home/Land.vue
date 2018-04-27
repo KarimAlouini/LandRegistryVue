@@ -21,7 +21,7 @@
               <li><h6>Owner :{{land.owner.fName}} {{land.owner.lName}}</h6></li>
             </ul>
             <center v-if="isAuth">
-              <button class="btn btn-primary btn-">Ask to buy</button>
+              <button class="btn btn-primary btn-lg">Ask to buy</button>
             </center>
 
 

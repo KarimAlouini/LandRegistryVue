@@ -48,22 +48,13 @@
       doLogin() {
 
         axios
-          .post("http://localhost:1000/api/users/AgentLogin", {"login":this.login,"pwd":this.pwd})
+          .post("http://localhost:1000/api/users/", {"login":this.login,"pwd":this.pwd})
           .then(response => {
             this.msg = "Connected"
-            axios
-              .post("http://localhost:1000/api/lands/generatToken", response.data)
-              .then(resp => {
-                localStorage.setItem("token",resp.data.token);
-                localStorage.setItem("connectedUserRole",response.data.role);
-                this.$root.$emit('userLoggedin');
-                this.$router.push('/');
-
-              })
-              .catch(err => {
-                console.log(err);
-                this.msg = "Invalid Login Or Password"
-              });
+            localStorage.setItem("token",response.data.token);
+            localStorage.setItem("connectedUserRole",response.data.userInfo.role);
+            this.$root.$emit('userLoggedin');
+            this.$router.push('/');
           })
           .catch(error => {
             this.msg = "Ivalid Login Or Password"
