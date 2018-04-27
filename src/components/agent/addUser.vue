@@ -132,11 +132,9 @@
                 <button class=" btn btn-danger" @click="validation=false">
                   Undo
                 </button>
-                <router-link to="/agent/users">
                   <button class=" btn btn-primary" @click="addToAPI">
                     Validate
                   </button>
-                </router-link>
               </div>
             </div>
           </div>
@@ -178,6 +176,7 @@
         console.log(newUser);
         axios.post('http://localhost:1000/api/agent/addUser', newUser)
           .then((response) => {
+            this.$router.push('/agent/users');
             console.log(response);
           })
           .catch((error) => {
