@@ -84,8 +84,8 @@
       }
     }
 
-    .text{
-      color:$vue-darkest-blue
+    .text {
+      color: $vue-darkest-blue
     }
   }
 </style>

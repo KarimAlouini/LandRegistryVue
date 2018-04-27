@@ -4,6 +4,7 @@
     <div class="row">
       <div class="col-xl-7 col-lg-12">
         <vuestic-widget class="widget-viewport-height" header-text="Lands map">
+          <h4 class="text-center" v-if="currentCity != null">Current location : {{currentCity}}</h4>
           <google-map :showMarkers=true></google-map>
         </vuestic-widget>
 
@@ -58,21 +59,20 @@
       Autocomplete,
       LandListHome,
       AtomSpinner,
-      SpringSpinner, VuesticFeed, ItemsPerPage, FilterBar, VuesticDataTable, GoogleMap, VuesticWidget
+      SpringSpinner, VuesticFeed, GoogleMap, VuesticWidget
     }, data() {
       return {
 
         lands: [],
         loaded: false,
         loadedMap: false,
-        cities: []
+        cities: [],
+        currentCity: null
       }
     },
     mounted: function () {
       this.getCities();
-      this.$root.$on('loadedMap', () => {
-        // this.loadedMap = true;
-      });
+
       this.$root.$on('doneDrawing', () => {
         console.log('done drawing');
         this.loadedMap = true;
@@ -80,7 +80,6 @@
       });
 
       this.getLands((data) => {
-        console.log('getlands');
         this.lands = data;
         this.$root.$emit('drawLands', this.lands);
 
@@ -111,7 +110,7 @@
       searchForCity($event) {
         axios.get('http://localhost:1000/api/cities/byname/' + $event)
           .then((response) => {
-            console.log(response.data);
+            this.currentCity = $event;
             this.$root.$emit('panToCity', {lat: response.data.lat, lng: response.data.lng});
             this.getCities();
           }).catch((error) => {
@@ -142,4 +141,6 @@
   .autocomplete {
     margin-bottom: 20px;
   }
+
+
 </style>
