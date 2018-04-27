@@ -1,14 +1,16 @@
 <template>
-  <div v-show="doneDrawing" class="google-map" id="map" ref="map">
+  <div v-show="doneDrawing" class="google-map"  ref="map">
     <atom-spinner style="margin:0 auto" v-show="!doneDrawing" color="#4ae387" class="text-center"></atom-spinner>
 
     <div ref="window" v-if="land !== null">
       {{land.info.area}} m² @ {{land.info.number}} , {{land.info.localization.street}} th ,
       {{land.info.localization.city}} [{{land.info.localization.zipCode}}]<br><br>
-      <center> <router-link :to="{ name: 'land', params: { id:land.info._id}}"><button class="btn btn-micro btn-primary">Visit</button></router-link></center>
+      <center>
+        <router-link :to="{ name: 'land', params: { id:land.info._id}}">
+          <button class="btn btn-micro btn-primary">Visit</button>
+        </router-link>
+      </center>
     </div>
-
-
   </div>
 </template>
 
@@ -29,21 +31,24 @@
       return {
         doneDrawing: false,
         land: null,
-        showM:true
+        showM: true
       }
     },
     computed: mapGetters({
       config: 'config'
     }),
-    props:['showMarkers'],
+    props: ['showMarkers'],
     mounted() {
-
-
+      this.$root.$on('panToLand',(land)=>{
+        console.log('pan to called');
+        this.panToLand(land);
+      });
+      console.log('mounted map');
       GoogleMapsLoader.KEY = this.config.googleMaps.apiKey
       var ref = this;
       GoogleMapsLoader.load((google) => {
 
-        ref.map = new google.maps.Map(document.getElementById('map'), {
+        ref.map = new google.maps.Map(document.getElementsByClassName('google-map')[0], {
           center: new google.maps.LatLng(36.883329, 10.274580),
           zoom: 10,
           mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -57,16 +62,21 @@
 
       });
 
-      this.$root.$on('panToCity',(value)=>{
+      this.$root.$on('panToCity', (value) => {
         this.map.setZoom(12);
         this.map.panTo(value);
       });
     },
     methods: {
+      panToLand(land){
+        var coordinates = mapsUtil.constructCoordinatesFromLand(land);
+        this.map.setZoom(mapsUtil.getBoundsZoomLevel(mapsUtil.getBounds(coordinates), {height: 300, width: 300}))
+        this.map.panTo(mapsUtil.getBounds(coordinates).getCenter());
+      },
       drawLands(lands, callback) {
         async.forEachOf(lands, (land) => {
           var coordinates = mapsUtil.constructCoordinatesFromLand(land);
-          if (this.showMarkers){
+          if (this.showMarkers) {
             var marker = new google.maps.Marker({
               position: mapsUtil.getBounds(coordinates).getCenter(),
               map: this.map,
@@ -82,7 +92,7 @@
                 var infowindow = new google.maps.InfoWindow({
                   content: ref.$refs.window
                 });
-                infowindow.open(map, marker);
+                infowindow.open(this.map, marker);
               }, 100);
               this.map.setZoom(mapsUtil.getBoundsZoomLevel(mapsUtil.getBounds(coordinates), {height: 300, width: 300}))
               this.map.panTo(mapsUtil.getBounds(coordinates).getCenter());
@@ -118,6 +128,6 @@
   @import "../../../sass/_variables.scss";
 
   .google-map {
-    height: 100%;
+    height: 95%;
   }
 </style>

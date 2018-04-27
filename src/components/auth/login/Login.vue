@@ -42,10 +42,9 @@
       }
     },
     methods: {
-      test(){
-        this.$root.$emit('login',{'status':true,'role':'admin'});
-      },
+     
       doLogin() {
+        let ref = this;
         axios
           .post("http://localhost:1000/api/users/AgentLogin", {"login":this.login,"pwd":this.pwd})
           .then(response => {
@@ -55,15 +54,16 @@
               .then(resp => {
                 localStorage.setItem("token",resp.data.token);
                 localStorage.setItem("connectedUserRole",response.data.role);
-                window.location.replace("http://localhost:8080")
+                this.$router.push('/');
 
               })
               .catch(err => {
-                this.msg = "Unvalide Login Or Password"
+                console.log(err);
+                this.msg = "Invalid Login Or Password"
               });
           })
           .catch(error => {
-            this.msg = "Unvalide Login Or Password"
+            this.msg = "Ivalid Login Or Password"
 
           });
       }
