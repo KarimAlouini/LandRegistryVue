@@ -5,28 +5,36 @@
         <vuestic-widget headerText="Users">
           <atom-spinner v-if="!loaded" color="#4ae387" class="text-center"></atom-spinner>
           <div v-else class="table-responsive">
+            <div class="col-md-4 form-group">
+              <div class="input-group">
+                <input  id="search" type="text" v-model="search" >
+                <label class="control-label" for="search">Search user</label><i class="bar"></i>
+              </div>
+            </div>
             <table class="table table-striped table-sm color-icon-label-table">
               <thead>
               <tr>
-                <td>Index</td>
-                <td>First Name</td>
-                <td>Last Name</td>
-                <td>Email</td>
-                <td >Wallet Address</td>
-                <td >CIN</td>
+                <th>Index</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Wallet Address</th>
+                <th>CIN</th>
               </tr>
               </thead>
               <tbody>
-              <tr v-for="(user_alias,index) in User" :key="user_alias.id">
+              <tr v-for="(user,index) in filteredUsers" :key="user.id">
                 <td>{{ index+1 }}</td>
-                <td>{{ user_alias.fName }}</td>
-                <td>{{ user_alias.lName }}</td>
-                <td>{{ user_alias.email}}</td>
-                <td>{{ user_alias.blockchainAddress }}</td>
-                <td>{{ user_alias.idCard }}</td>
+                <td>{{ user.fName }}</td>
+                <td>{{ user.lName }}</td>
+                <td>{{ user.email}}</td>
+                <td>{{ user.blockchainAddress }}</td>
+                <td>{{ user.idCard }}</td>
               </tr>
               </tbody>
             </table>
+
+
           </div>
 
           <router-link to="/agent/addUser">
@@ -48,30 +56,41 @@
   export default {
     components: {AtomSpinner},
     name: "list-user",
-  data() {
-    return {
-      User: [],
-      loaded:false
-    };
-  },
-  mounted() {
-    axios
-      .get("http://localhost:1000/api/agent/listUser")
-      .then(response => {
-        console.log(response.data);
-        this.User = response.data;
-        this.loaded = true;
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+    data() {
+      return {
+        User: [],
+        loaded: false,
+        search: ''
+      };
+    },
+    mounted() {
+      axios
+        .get("http://localhost:1000/api/agent/listUser")
+        .then(response => {
+          console.log(response.data);
+          this.User = response.data;
+          this.loaded = true;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    computed: {
+      filteredUsers: function () {
+        return this.User.filter((user) => {
+          return user.fName.toLowerCase().match(this.search.toLowerCase())
+            ||user.lName.toLowerCase().match(this.search.toLowerCase())
+            ||user.email.toLowerCase().match(this.search.toLowerCase());
+        });
+      }
+    }
   }
 </script>
 
 <style lang="scss" scoped>
   @import "../../sass/variables";
-  atom-spinner{
-    color:$vue-green;
+
+  atom-spinner {
+    color: $vue-green;
   }
 </style>

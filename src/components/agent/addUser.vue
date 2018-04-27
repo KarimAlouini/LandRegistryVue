@@ -3,7 +3,13 @@
     <div v-if="!validation" class="row">
       <div class="col-md-12">
         <vuestic-widget headerText="Add New User">
-          <form>
+          <form @submit="checkForm" method="post">
+            <div v-if="err.length">
+              <b>Please correct the following error(s):</b>
+              <ul>
+                <li v-for="error in err">{{ error }}</li>
+              </ul>
+            </div>
             <div class="row">
               <div class="col-md-4 form-group">
                 <div class="input-group">
@@ -77,14 +83,13 @@
               <div class="col-md-4 ">
                 <div class="row">
                   <div class="col-md-6  offset-md-3">
-                    <button class=" btn btn-primary" @click="validation=true">
+                    <button class=" btn btn-primary" type="submit" @submit.prevent = "checkForm($event)">
                       Submit
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-
           </form>
         </vuestic-widget>
       </div>
@@ -127,11 +132,9 @@
                 <button class=" btn btn-danger" @click="validation=false">
                   Undo
                 </button>
-                <router-link to="/agent/users">
                   <button class=" btn btn-primary" @click="addToAPI">
                     Validate
                   </button>
-                </router-link>
               </div>
             </div>
           </div>
@@ -156,6 +159,7 @@
           cin: "",
           blockchainAddress: ""
         },
+        err: [],
         validation: false
       };
     },
@@ -172,12 +176,35 @@
         console.log(newUser);
         axios.post('http://localhost:1000/api/agent/addUser', newUser)
           .then((response) => {
+            this.$router.push('/agent/users');
             console.log(response);
           })
           .catch((error) => {
             console.log(error);
 
           });
+      },
+      checkForm:function(e) {
+        e.preventDefault();
+        if(
+          this.User.fName
+          && this.User.lName
+          && this.User.email
+          && this.User.cin
+          && this.User.login
+          && this.User.blockchainAddress)
+        {
+          this.validation=true;
+          return true
+        };
+        this.err = [];
+        if(!this.User.fName) this.err.push("First Name required.");
+        if(!this.User.lName) this.err.push("Last Name required.");
+        if(!this.User.email) this.err.push("Email required.");
+        if(!this.User.cin) this.err.push("CIN required.");
+        if(!this.User.login) this.err.push("Login required.");
+        if(!this.User.blockchainAddress) this.err.push("Blockchain Address required.");
+        e.preventDefault();
       }
     }
   }
