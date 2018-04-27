@@ -10,6 +10,8 @@ import addLandComponent from '../components/agent/addLand'
 import addUserComponent from '../components/agent/addUser'
 import listLands from '../components/agent/listLands'
 import listUser from '../components/agent/listUser'
+import divideLand from '../components/agent/divideLand.vue'
+
 
 Vue.use(Router)
 
@@ -94,6 +96,11 @@ export default new Router(
       name:"land",
       component:LandComponent
     },
+      {
+        path:"/divideLand/:id",
+        name:"divide",
+        component:divideLand
+      },
     {
       path: '*',
       redirect: { name: getDefaultRoute(menuModule.state.items).name }

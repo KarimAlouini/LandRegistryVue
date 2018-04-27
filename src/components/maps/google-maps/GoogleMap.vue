@@ -1,5 +1,5 @@
 <template>
-  <div v-show="doneDrawing" class="google-map"  ref="map">
+  <div v-show="doneDrawing" class="google-map" id="map" ref="map">
     <atom-spinner style="margin:0 auto" v-show="!doneDrawing" color="#4ae387" class="text-center"></atom-spinner>
 
     <div ref="window" v-if="land !== null">

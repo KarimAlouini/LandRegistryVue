@@ -13,6 +13,7 @@
                 <td>Owner Last Name</td>
                 <td>Land Address</td>
                 <td align="middle">Land Area</td>
+                <td align="middle">Action</td>
               </tr>
               </thead>
               <tbody>
@@ -24,6 +25,8 @@
                   {{land_alias.localization.number}}
                 </td>
                 <td align="middle">{{ land_alias.area }}</td>
+                <td align="middle"><router-link :to="{ name: 'divide', params: { id:land_alias._id}}"><button class="btn btn-micro btn-primary">Devide</button></router-link>
+                </td>
               </tr>
               </tbody>
             </table>
