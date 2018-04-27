@@ -63,7 +63,7 @@ export default new Router(
         name: 'listLands',
         component: listLands,
         beforeEnter: (to, from, next) => {
-          if(localStorage.getItem('token') ==null || localStorage.getItem('connectedUserRole')!="admin"){
+          if(localStorage.getItem('token') ==null || localStorage.getItem('connectedUserRole')!="Agent"){
             next('/login')
           }
           else{
@@ -77,7 +77,7 @@ export default new Router(
         name: 'listUser',
         component: listUser,
         beforeEnter: (to, from, next) => {
-          if(localStorage.getItem('token') ==null || localStorage.getItem('connectedUserRole')!="admin"){
+          if(localStorage.getItem('token') ==null || localStorage.getItem('connectedUserRole')!="Agent"){
             next('/login')
           }
           else{

@@ -55,16 +55,16 @@
         </a>
         <div class="dropdown-menu last">
           <div class="dropdown-menu-content">
-            <div v-if="this.role=='user'" class="dropdown-item plain-link-item">
+            <div v-if="this.role=='User'" class="dropdown-item plain-link-item">
               <a class="plain-link" href="#">My Lands</a>
             </div>
-            <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
+            <div v-if="this.role=='Agent'" class="dropdown-item plain-link-item">
               <a class="plain-link" @click="gotothispath('listLands')">All Lands</a>
             </div>
-            <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
+            <div v-if="this.role=='Agent'" class="dropdown-item plain-link-item">
               <a class="plain-link" @click="gotothispath('listUser')">All User</a>
             </div>
-            <div v-if="this.role=='admin'" class="dropdown-item plain-link-item">
+            <div v-if="this.role=='Agent'" class="dropdown-item plain-link-item">
               <a class="plain-link" @click="gotothispath('addUser')">Add Land</a>
             </div>
             <div class="dropdown-item plain-link-item">
@@ -135,7 +135,7 @@
         this.role = localStorage.getItem('connectedUserRole');
       }
       //localStorage.setItem("token",'token');
-      //localStorage.setItem("connectedUserRole",'admin');
+      //localStorage.setItem("connectedUserRole",'Agent');
 
 
     }

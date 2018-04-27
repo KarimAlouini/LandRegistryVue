@@ -1,12 +1,12 @@
 <template>
-  <div  class="row" style="margin: auto">
-  <vuestic-widget>
-    <div class="login">
-      <h2>{{'auth.welcome' | translate}}</h2>
+  <div class="row" style="margin: auto">
+    <vuestic-widget>
+      <div class="login">
+        <h2>{{'auth.welcome' | translate}}</h2>
 
         <div class="form-group">
           <div class="input-group">
-            <input type="text" id="email"v-model="login" required="required"/>
+            <input type="text" id="email" v-model="login" required="required"/>
             <label class="control-label" for="email">{{'auth.email' | translate}}</label><i class="bar"></i>
           </div>
         </div>
@@ -17,11 +17,11 @@
           </div>
         </div>
         <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between down-container">
-          <input type="submit"class="btn btn-primary" @click="doLogin" value="Login">
+          <input type="submit" class="btn btn-primary" @click="doLogin" value="Login">
           <h6>{{this.msg}}</h6>
         </div>
-    </div>
-  </vuestic-widget>
+      </div>
+    </vuestic-widget>
   </div>
 </template>
 
@@ -40,7 +40,7 @@
         pwd: '',
         msg: '',
         token: '',
-        parent:null
+        parent: null
       }
     },
     methods: {
@@ -48,16 +48,18 @@
       doLogin() {
 
         axios
-          .post("http://localhost:1000/api/users/", {"login":this.login,"pwd":this.pwd})
+          .post("http://localhost:1000/api/users/", {"login": this.login, "pwd": this.pwd})
           .then(response => {
             this.msg = "Connected"
-            localStorage.setItem("token",response.data.token);
-            localStorage.setItem("connectedUserRole",response.data.userInfo.role);
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("connectedUserRole", response.data.userInfo.role);
+            localStorage.setItem("userInfo", JSON.stringify(response.data.userInfo));
+
             this.$root.$emit('userLoggedin');
             this.$router.push('/');
           })
           .catch(error => {
-            this.msg = "Ivalid Login Or Password"
+            this.msg = "Invalid Login Or Password"
 
           });
       }

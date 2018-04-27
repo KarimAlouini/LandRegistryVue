@@ -20,7 +20,7 @@
               <li><h6>Area : {{land.info.area}}</h6></li>
               <li><h6>Owner :{{land.owner.fName}} {{land.owner.lName}}</h6></li>
             </ul>
-            <center v-if="isAuth">
+            <center v-if="isAuth && isUser">
               <button class="btn btn-primary btn-lg">Ask to buy</button>
             </center>
 
@@ -106,6 +106,11 @@
           return false;
         else return true;
 
+      },
+      isUser(){
+        if (localStorage.getItem('connectedUserRole') === 'admin')
+          return false;
+        else return true;
       }
     }
   }
